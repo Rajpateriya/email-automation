@@ -1,10 +1,10 @@
 import { fetchGmailEmails, getGmailEmail } from './gmailService';
-// import { fetchOutlookEmails, getOutlookEmail } from './outlookService';
+import { fetchOutlookEmails, getOutlookEmail } from './outlookService';
 import { analyzeEmailContent } from './geminiService';
 
 export const processEmails = async () => {
   const gmailEmails = await fetchGmailEmails();
-//   const outlookEmails = await fetchOutlookEmails();
+  const outlookEmails = await fetchOutlookEmails();
 
   const emailDetails = [];
 
@@ -14,11 +14,11 @@ export const processEmails = async () => {
     emailDetails.push({ ...emailData, label });
   }
 
-//   for (const email of outlookEmails) {
-//     const emailData = await getOutlookEmail(email.id);
-//     const label = await analyzeEmailContent(emailData.body.content);
-//     emailDetails.push({ ...emailData, label });
-//   }
+  for (const email of outlookEmails) {
+    const emailData = await getOutlookEmail(email.id);
+    const label = await analyzeEmailContent(emailData.body.content);
+    emailDetails.push({ ...emailData, label });
+  }
 
   return emailDetails;
 };
